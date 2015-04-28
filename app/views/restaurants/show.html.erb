@@ -1,0 +1,53 @@
+<!--<p id="notice"><%= notice %></p>-->
+
+<p>
+  <strong>Name:</strong>
+  <%= @restaurant.name %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @restaurant.address %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @restaurant.description %>
+</p>
+
+<p>
+  <strong>Logo:</strong>
+  <%= @restaurant.logo %>
+</p>
+
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Menus</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+  <% Submenu.where(restaurantId:@restaurant.id).find_each do |submenu| %>
+    <tr>
+      <td><%=submenu.name%></td>
+      
+
+        <td><%= link_to 'show', submenu, :class => "btn btn-default btn-sm" %></td>
+
+      <% if (current_user.try(:restaurantid) == @restaurant.id) || current_user.try(:admin?) %>
+        <td><%= link_to 'Delete', submenu, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-default btn-sm" %></td>
+      <% end %>
+    
+    </tr>
+
+  <% end %>
+
+  </tbody>
+</table>
+<% if (current_user.try(:restaurantid) == @restaurant.id) || current_user.try(:admin?) %>
+  <%= link_to '+ Add New Menu', new_submenu_path(:restaurant => @restaurant.name, :restaurantId => @restaurant.id), :class => "btn btn-default btn-sm" %>
+<% end %>

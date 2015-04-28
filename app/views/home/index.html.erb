@@ -1,0 +1,68 @@
+
+
+
+
+
+
+
+
+<% if !current_user.try(:restaurantid?) %>
+<h3>Welcome to Orderout</h3>
+<br>
+<%= form_tag action="index", :method => :get do %>
+  <p>
+    <%= text_field_tag :search, params[:search], :class => "form-control", :value => "Not at home? What's your current address?" %>
+    <br>
+    <%= submit_tag "Search Near", :name => nil, :class => "btn btn-default btn-sm"%>
+  </p>
+<% end %>
+
+
+	<table class = "table table-hover">
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+	      <th>Address</th>
+	      <th>Description</th>
+	      <th>Logo</th>
+	      <th colspan="3"></th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
+	  	<% for location in @locations %>
+			<% if location.restaurant_id != nil %>
+				<% restaurant = Restaurant.find(location.restaurant_id) %>
+	    	
+	    	<% if restaurant.visible %>
+		      <tr>
+		        <td><%= link_to restaurant.name, restaurant %> (<%= location.distance.round(2) %> miles)</td>
+		        <td><%= restaurant.address %></td>
+		        <td><%= restaurant.description %></td>
+		        <td><%= restaurant.logo %></td>
+		        <td><%= link_to 'Show', restaurant, :class => "btn btn-default btn-sm" %></td>
+		      </tr>
+		      <% end %>
+	      <% end %>
+	    <% end %>
+	  </tbody>
+	</table>
+
+
+
+<% else %>
+
+	<h3>Welcome, <%= @restaurants.find(current_user.try(:restaurantid)).name %></h3>
+	<br>
+	<br>
+	<div class="form-group">
+		<%= link_to 'Restaurant Details', @restaurants.find(current_user.try(:restaurantid)),  :class => "btn btn-default btn-sm"%>
+	</div>
+	<div class="form-group">
+		<%= link_to 'Edit Restaurant', edit_restaurant_path(@restaurants.find(current_user.try(:restaurantid))), :class => "btn btn-default btn-sm" %>
+	</div>
+	<div>
+		<%= link_to 'View Orders', {action: 'view_orders'}, :class => "btn btn-default btn-sm" %>
+	</div>
+<% end %>
+

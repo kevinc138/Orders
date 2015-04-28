@@ -1,0 +1,27 @@
+
+<h3>My Cart</h3>
+
+
+
+<table class="table table-hover">
+	<tr>
+		<th>Name</th>
+		<th>Quantity</th>
+		<th>Total</th>
+		<th>Restaurant</th>
+	</tr>
+	<% @shopping_cart.shopping_cart_items.each do |item| %>
+		<tr>
+			<td><%= item.item.name %></td>
+			<td><%= item.quantity %></td>
+			<td><%= item.item.price %></td>
+			<td><%= item.item.restaurant_id %></td> 
+		</tr>
+
+	<% end %>
+
+</table>
+
+<h5> Total Price: <%= number_to_currency @shopping_cart.total %> </h5>
+	<%= link_to 'Empty Cart',  :class => "btn btn-default btn-sm", :action => 'empty_cart'%>
+	<%= button_to 'Return to Store', :action => :index, :class => "btn btn-default btn-sm" %>

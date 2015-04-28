@@ -1,0 +1,35 @@
+<h3>Shopping Cart</h3>
+<div><%= link_to 'Empty Cart', {:action => :empty_cart}, :class => 'btn btn-default btn-sm' %></div><br>
+
+<table class="table table-hover">
+  <tr>
+    <th>Name</th>
+    <th>Quantity</th>
+    <th>Total</th>
+    <th>Restaurant Name</th>
+  </tr>
+  <% @arrList.each do |arr| %>
+    <% arr.each do |item| %>
+    <tr>
+      <td><%= item.item.name %></td>
+      <td><%= item.quantity %></td>
+      <td><%= item.item.price %></td>
+      <td><%= Restaurant.find(item.item.restaurantId).name%></td>
+      <td> <%= link_to "+1", {:action => :increase_quantity, :item_id => item.id} %> <% if item.quantity > 1 %><%= link_to "-1", {:action => :decrease_quantity, :item_id => item.id} %> <% end %> <%= link_to "remove", {:action => :remove_item, :item_id => item.id} %>
+      </td>
+    </tr>
+    <% end %>
+
+  <% end %>
+
+</table>
+<div style="float-right">
+<div> Subtotal: <%= number_to_currency (@shopping_cart.subtotal)%> </div>
+<div> Tax: <%= number_to_currency (@shopping_cart.tax_pct/100)*@shopping_cart.subtotal%> </div>
+<div style="font-weight:bold"> Total Price: <%= number_to_currency @shopping_cart.total %> </div>
+<br>
+  <div><%= link_to 'Place Order', {:action => :place_order}, :class => 'btn btn-default btn-sm'%></div>
+  <br>
+  
+  <div><%= button_to 'Return to Store', {:action => :index}, :class => "btn btn-default btn-sm" %></div>
+</div>

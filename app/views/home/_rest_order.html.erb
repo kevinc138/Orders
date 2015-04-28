@@ -1,0 +1,38 @@
+
+<% if !rest_order.active %>
+<hr>
+
+
+<h4><%= Restaurant.find(rest_order.restaurant_id).name %></h4>
+<div><%=rest_order.created_at%></div>
+<div>Order for: <%= User.find(rest_order.user_id).email %></div>
+
+<table class="table table-condensed">
+
+
+<thead>
+<th>Item</th>
+<th>Price</th>
+<th>Quantity</th>
+</thead>
+<tbody>
+<% rest_order.order_items.each do |item| %>
+<tr >
+	<td style="border-top: none"><%= item.name %></td>
+	<td style="border-top: none"><%= number_to_currency(item.price) %></td>
+	<td style="border-top: none"><%= item.quantity %></td>
+	<td><%= link_to "Unarchive", {:action => 'activate_order', :order_id => rest_order.id}, :class => "btn btn-default btn-sm" %></td>
+</tr>
+<% end %>
+
+
+</tbody>
+</table>
+
+
+<div style="pull-right">
+<div>Subtotal: <%= number_to_currency(rest_order.subtotal) %></div>
+<div>Tax: <%= number_to_currency(rest_order.tax * rest_order.subtotal) %></div>
+<div>Total: <%= number_to_currency(rest_order.total) %></div>
+</div>
+<% end %>

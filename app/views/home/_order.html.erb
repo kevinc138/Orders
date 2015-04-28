@@ -1,0 +1,39 @@
+<hr>
+
+
+<h4><%= Restaurant.find(order.restaurant_id).name %></h4>
+<div><%=order.created_at%></div>
+<div>Order for: <%= User.find(order.user_id).first_name + " " + User.find(order.user_id).last_name %></div>
+<% if order.active %>
+<div style="color:red">In Progress</div>
+<% else %>
+<div style="color:green">Complete</div>
+<% end %>
+<br>
+<table class="table table-condensed">
+
+
+<thead>
+<th>Item</th>
+<th>Price</th>
+<th>Quantity</th>
+</thead>
+<tbody>
+<% order.order_items.each do |item| %>
+<tr >
+	<td style="border-top: none"><%= item.name %></td>
+	<td style="border-top: none"><%= number_to_currency(item.price) %></td>
+	<td style="border-top: none"><%= item.quantity %></td>
+</tr>
+<% end %>
+
+
+</tbody>
+</table>
+
+
+<div style="pull-right">
+<div>Subtotal: <%= number_to_currency(order.subtotal) %></div>
+<div>Tax: <%= number_to_currency(order.tax * order.subtotal) %></div>
+<div>Total: <%= number_to_currency(order.total) %></div>
+</div>

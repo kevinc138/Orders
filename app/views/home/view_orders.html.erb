@@ -1,0 +1,5 @@
+
+
+
+	<% @orders = @orders.order("created_at DESC").all %>
+	<%= render :partial => 'order', :collection => @orders, :order => :created_at %>
