@@ -1,4 +1,7 @@
 <p>
+  <%= image_tag @restaurant.avatar.url(:medium) %>
+</p>
+<p>
   <strong>Name:</strong>
   <%= @restaurant.name %>
 </p>
@@ -13,17 +16,12 @@
   <%= @restaurant.description %>
 </p>
 
-<p>
-  <strong>Logo:</strong>
-  <%= @restaurant.logo %>
-</p>
-
 <hr>
 
 <h3><%= @submenu.name %></h3>
 
 <% if (current_user.try(:restaurantid) == @submenu.restaurantId) || current_user.try(:admin?) %>
-  <%= link_to 'Edit', edit_submenu_path(@submenu), :class => 'btn btn-default btn-sm' %> |
+<%= link_to 'Edit Menu', edit_submenu_path(@submenu), :class => 'btn btn-default btn-sm' %> 
   
 <% end %>
 
@@ -58,7 +56,8 @@
 
   </tbody>
 </table>
-<%= link_to 'Back', restaurant_path(@submenu.restaurantId) %>
 <% if (current_user.try(:restaurantid) == @submenu.restaurantId) || current_user.try(:admin?) %>
-  <%= link_to '+ Add New Item', new_item_path(:submenuId => @submenu.id, :restaurantId => @submenu.restaurantId), :class => "btn btn-default btn-sm"  %>
+  <div><%= link_to '+ Add New Item', new_item_path(:submenuId => @submenu.id, :restaurantId => @submenu.restaurantId), :class => "btn btn-default btn-sm"  %></div>
 <% end %>
+
+<div><%= link_to 'Back', restaurant_path(@submenu.restaurantId) %></div>

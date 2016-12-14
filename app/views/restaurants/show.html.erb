@@ -1,4 +1,7 @@
 <!--<p id="notice"><%= notice %></p>-->
+<p>
+  <%= image_tag @restaurant.avatar.url(:medium) %>
+</p>
 
 <p>
   <strong>Name:</strong>
@@ -15,10 +18,6 @@
   <%= @restaurant.description %>
 </p>
 
-<p>
-  <strong>Logo:</strong>
-  <%= @restaurant.logo %>
-</p>
 
 
 

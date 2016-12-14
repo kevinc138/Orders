@@ -21,15 +21,16 @@
             <ul class="nav navbar-nav">
 
             
-            
-              <li><%= link_to "Home", "http://localhost:3000/home/index" %></li>
-              <% if current_user.try(:admin?) %>
-              	<li><%= link_to "Restaurants", "http://localhost:3000/restaurants" %></li>  
-                <li><%= link_to "Submenus", "http://localhost:3000/submenus" %></li>
-                <li><%= link_to "Items", "http://localhost:3000/items" %></li>
-              <% end %>
               <% if user_signed_in? %>
-                <li> <%= link_to "View Cart #{@shopping_cart.total_unique_items}", "http://localhost:3000/home/view_cart"%></li>
+              <li><%= link_to "Home", :controller => :home, :action => :index %></li>
+              <% end %>
+              <% if current_user.try(:admin?) %>
+              <li><%= link_to "Restaurants", :controller => :restaurants, :action => :index %></li>  
+              <li><%= link_to "Submenus", :controller => :submenus, :action => :index %></li>
+              <li><%= link_to "Items", :controller => :items, :action => :index %></li>
+              <% end %>
+              <% if user_signed_in? && !current_user.try(:restaurantid?) && !current_user.try(:admin?) %>
+              <li> <%= link_to "View Cart #{@shopping_cart.total_unique_items}", :controller => :home, :action => :view_cart%></li>
               <% end %>
              
             </ul>
@@ -44,12 +45,12 @@
         			        Hello, <%= current_user.try(:email)%> <b class="caret"></b>
         			      </a>
         			      <ul class="dropdown-menu">
-                      <li><%= link_to "Profile", "http://localhost:3000/users/edit" %></li>
-                      <li><%= link_to "Past Orders", "http://localhost:3000/home/view_orders" %></li>
+                      <li><%= link_to "Profile", edit_user_registration_path %></li>
+                      <li><%= link_to "Past Orders", :controller => :home, :action => :view_orders%></li>
                       
                       <li class="divider"></li>
                       <li>
-                        <%= link_to "Logout", "http://localhost:3000/users/sign_out", :method => :delete %>
+                        <%= link_to "Logout", destroy_user_session_path, :method => :delete %>
                       </li>
                     </ul>
         			    </li>

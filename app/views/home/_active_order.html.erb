@@ -22,10 +22,9 @@
 	<td style="border-top: none"><%= item.name %></td>
 	<td style="border-top: none"><%= number_to_currency(item.price) %></td>
 	<td style="border-top: none"><%= item.quantity %></td>
-	<td><%= link_to "Archive", {:action => 'deactivate_order', :order_id => active_order.id}, :class => "btn btn-default btn-sm" %></td>
+	
 </tr>
 <% end %>
-
 
 </tbody>
 </table>
@@ -34,6 +33,9 @@
 <div style="pull-right">
 <div>Subtotal: <%= number_to_currency(active_order.subtotal) %></div>
 <div>Tax: <%= number_to_currency(active_order.tax * active_order.subtotal) %></div>
-<div>Total: <%= number_to_currency(active_order.total) %></div>
+<div style="font-weight:bold">Total: <%= number_to_currency(active_order.total) %></div>
 </div>
+
+<div><%= link_to "Archive", {:action => 'deactivate_order', :order_id => active_order.id}, :class => "btn btn-default btn-sm" %></div>
+
 <% end %>

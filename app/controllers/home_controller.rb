@@ -1,8 +1,10 @@
 class HomeController < ApplicationController
-
+  before_action :is_logged_in
+  
+  
   def index
   	@restaurants = Restaurant.all
-
+    @works = true
     
 
     if(user_signed_in?)
@@ -10,7 +12,16 @@ class HomeController < ApplicationController
       @location = user.location
       if(params[:search] != nil)
         @location = Location.create(:address => params[:search])
+        if(@location == nil)
+          params[:search] = "Greencastle, IN"
+          redirect_to :action => :index
+        end
         @locations = @location.nearbys(1000)
+        if(@locations == nil)
+          flash[:notice] = "Please enter a valid location"
+          params[:search] = "Greencastle, IN"
+          redirect_to :action => :index, :search => params[:search]
+        end
         #Location.near(params[:search], 1000, :order => :distance)
 
       elsif(user.location == nil)
@@ -26,6 +37,8 @@ class HomeController < ApplicationController
       else
         @locations = Location.all
       end
+    else
+      @locations = Location.all
     end
   end
 
@@ -66,6 +79,7 @@ class HomeController < ApplicationController
         order.tax = (@shopping_cart.tax_pct/100).round(2)
         order.total = (order.subtotal * order.tax + order.subtotal).round(2)
         order.save
+        subtotal =0
 
       end
       @shopping_cart.clear
@@ -168,6 +182,13 @@ class HomeController < ApplicationController
       return orgList
 
     end
+  
+  def is_logged_in
+    if !user_signed_in?
+      redirect_to new_user_session_path
+    end
+  end
+  
   	def find_cart
   		
       #tempCart = Cart.find(current_user.try(:id))

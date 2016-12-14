@@ -52,3 +52,5 @@ gem 'hirb'
 gem 'acts_as_shopping_cart', '~> 0.2.1'
 
 gem 'geocoder'
+
+gem 'paperclip', :git => "git://github.com/thoughtbot/paperclip.git"

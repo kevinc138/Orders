@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get 'home/index'
 
   resources :restaurants
-
+  get 'index' => 'home#index'
   get 'home/view_rest_orders'
   get 'home/deactivate_order'
   get 'home/activate_order'
@@ -23,8 +23,7 @@ Rails.application.routes.draw do
   get 'home/decrease_quantity'
   get 'home/increase_quantity'
   get 'home/remove_item'
-
-  
+ 
   devise_for :users, :controllers => { registrations: 'registrations' }
   post 'home/add_to_cart'
   get 'home/empty_cart'
